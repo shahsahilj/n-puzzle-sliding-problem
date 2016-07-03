@@ -8,13 +8,14 @@ from sets import Set
 
 ##global variables
 n = 3
-goalstate = [[i+n*j for i in range(n)] for j in range(n)]
+goalstate = []
 checkedstates = Set()
 nodesExp = 0
 maxdepth = 0
 memreq = 0
 maxfringe = 0
 solvedida = False
+actualdict = []
 
 ##State class holds the current state and its parent state also which direction caused to get to that state
 class State:
@@ -45,7 +46,6 @@ class State:
                     j = l[i].index(data)
                     return [i,j]
     def actualindex(self,i):
-        actualdict = [[0,0],[0,1],[0,2],[1,0],[1,1],[1,2],[2,0],[2,1],[2,2]]
         return actualdict[i]
     def getblankindex(self):
         l = self.nums
@@ -140,9 +140,9 @@ def solveBFS(q):
         else:
             children = []
             children.extend(expandnode(current))
-
             for c in children:
                 stringc = str(c.nums)
+##                print stringc
                 if stringc in checkedstates:
                     continue
                 else:
@@ -248,8 +248,12 @@ def solveIDA(pq,depthlimit):
 
 
 def main():
-    global maxdepth,maxfringe,checkedstates,solvedida
+    global n,maxdepth,maxfringe,checkedstates,solvedida,actualdict,goalstate
     n = int(sys.argv[1])
+    for i in range(n):
+            for j in range(n):
+                actualdict.append([i,j])
+    goalstate = [[i+n*j for i in range(n)] for j in range(n)]
     k=2
     initial = [x[:] for x in [[0]*n]*n]
     for i in range(n):
